@@ -1,0 +1,27 @@
+#!/bin/sh
+set -e
+
+echo "Waiting for PostgreSQL..."
+
+until pg_isready -h postgres -p 5432 -U "$POSTGRES_USERNAME"; do
+  sleep 1
+done
+
+echo "PostgreSQL is ready"
+
+echo "Clearing cache..."
+rm -rf  var/cache/*
+
+echo "Running composer install..."
+composer install --no-interaction --prefer-dist
+
+echo "Running migrations..."
+php bin/console make:migration
+php bin/console doctrine:migrations:migrate --no-interaction || true
+
+echo "Installing frontend dependencies..."
+npm install
+npm run dev
+
+echo "Starting application..."
+exec "$@"
