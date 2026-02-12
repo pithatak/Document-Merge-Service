@@ -17,8 +17,8 @@ RUN apt-get update && apt-get install -y \
         gd
 
 # Install Node.js 20
-#RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
-#    && apt-get install -y nodejs
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get install -y nodejs
 
 # composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer

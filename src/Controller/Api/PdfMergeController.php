@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
-class PdfMergeController extends AbstractController
+final class PdfMergeController extends AbstractController
 {
     #[Route('/api/merge', name: 'api_merge', methods: ['POST'])]
     public function merge(
