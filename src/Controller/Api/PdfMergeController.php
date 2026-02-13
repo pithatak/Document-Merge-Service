@@ -27,10 +27,17 @@ final class PdfMergeController extends AbstractController
         $errors = $validator->validate($dto);
 
         if (count($errors) > 0) {
+            $formattedErrors = [];
+
+            foreach ($errors as $error) {
+                $formattedErrors[] = $error->getMessage();
+            }
+
             return $this->json([
-                'errors' => (string)$errors
+                'errors' => $formattedErrors
             ], 400);
         }
+
 
         $mergedPath = $mergeService->merge($dto->files);
         $response = new BinaryFileResponse($mergedPath);
